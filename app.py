@@ -69,7 +69,7 @@ def init():
     threading.Thread(target=update_population).start()
     threading.Thread(target=update_supply_and_price).start()
 
-    time.sleep(1) # Wait long enough for all neccesary values to appear in DATA
+    time.sleep(2) # Wait long enough for all neccesary values to appear in DATA
 
 
 @app.route("/")
