@@ -3,8 +3,6 @@
 <html lang="en">
 
 <head>
-    <script type="text/javascript" src={{ url_for("static", filename="decimal.js" ) }}></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,20 +10,49 @@
     <meta name="description" content="How much Nano per person in the world">
     <meta name="author" content="NinjaSnail1080">
 
-    <meta property="og:title" content="How much Nano is there per person on Earth?">
+    <meta property="og:title" content="How much raw is there per person on Earth?">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.rawperperson.com/">
-    <meta property="og:description" content="A simple HTML5 Template for new projects.">
-    <meta property="og:image" content={{ url_for("static", filename="image.png" ) }}>
+    <meta property="og:url" content="https://www.rawperperson.com/about">
+    <meta property="og:description" content="How much Nano could everyone get?">
+    <meta property="og:image" content={{ url_for("static", filename="image.png") }}>
 
-    <link rel="icon" type="image/png" href={{ url_for("static", filename="icon.png" ) }}>
-    <link rel="apple-touch-icon" href={{ url_for("static", filename="icon.png" ) }}>
+    <link rel="icon" type="image/png" href={{ url_for("static", filename="icon.png") }}>
+    <link rel="apple-touch-icon" href={{ url_for("static", filename="icon.png") }}>
 
-    <link rel="stylesheet" href={{ url_for("static", filename="index.css" ) }}>
+    <link rel="stylesheet" href={{ url_for("static", filename="stylesheet.css") }}>
 
 </head>
 
 <body>
+    <div class="home-button">
+        <form action={{ url_for("index") }}><button type="submit" class="home-button"><b>Back to home</b></button></form>
+    </div>
+
+    <div class="about">
+        <img id="about-icon" src={{ url_for("static", filename="icon.png") }} width="350" height="350">
+        <br><br>
+        <p>This website was inpired by Miguel Medeiros's <a href="https://satoshisperperson.com/">satoshisperperson.com</a>. I
+        decided to make a site like his for the Nano cryptocurrency. Nano is a digital currency that utilizes a
+        block-lattice structure (where every account has its own blockchain) and a consensus mechanism called Open
+        Representative Voting to enable near-instant, extremely energy-efficient, and completely feeless transactions. You
+        can learn more about Nano on it's <a href="https://nano.org/">official website</a> and at <a href="https://nano.community/">nano.community</a>.</p>
+        <p>While a single Bitcoin can be divided to just 8 decimal places, Nano can be divided down to 30. The smallest unit
+        of a Nano is called "raw". There's 1 nonillion (short scale) or 1 quintillion (long scale) raw in a single Nano.
+        This extreme divisibility means that there's an absurd amount of raw per person in the world. The total supply of Nano is about 133 million.
+        Even if it was reduced to just 1 Nano, there would still be 125,000,000,000,000,000,000 raw per person, assuming a population of 8 billion.</p>
+        <p>Some people might be wondering why the <b>Available Nano Supply</b> section on the home page says 133,246,492 instead of the
+        oft-repeated 133,248,297. The latter value is what the available supply was after the leftover funds were burnt back
+        in 2017, following the shutdown of the original faucet. However, random people have sent additional Nano to the burn address since then,
+        slightly lowering the amount of Nano in circulation. This website uses the "available_supply" RPC command to get the current circulating supply.</p>
+        <p>The live population counter is based on <a href="https://www.theworldcounts.com/challenges/planet-earth/state-of-the-planet/world-population-clock-live/story">this website</a>.
+        Of course, it only shows a very rough estimate based on data from the U.N. and other international organizations. It's impossible to know what Earth's actual population is at any given time.</p>
+        <p>If you want to view the code for this site, <a href="https://github.com/NinjaSnail1080/rawperperson">here it is on Github</a>.
+        Currently, this website looks absolutely terrible on mobile or if you resize the screen. So if anyone who's way better than me
+        at CSS would like to fix it, please be my guest. This is the first website I've ever made, so of course it's pretty janky.</p>
+        <p>JSON data from the backend server is accessed via <a href={{ url_for("data") }}>this API endpoint</a>.</p>
+        <p>The background image and the photo for the Nano icon above come from <a href="https://earthobservatory.nasa.gov/images/90008/night-light-maps-open-up-new-applications">NASA's Black Marble images</a>
+        of Earth's city lights at night.</p>
+    </div>
 </body>
 
 </html>
