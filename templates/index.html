@@ -1,5 +1,3 @@
-<!--https://www.sitepoint.com/a-basic-html5-template/-->
-
 <!doctype html>
 
 <html lang="en">
@@ -133,7 +131,7 @@
             sessionStorage.setItem("supply_nano", "t"); // If it's null
         }
         if (sessionStorage.getItem("unit_nano") == "t") {
-            perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10 ** 30).toFixed(30, 3);
+            perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toDecimalPlaces(30, 3);
             unit[0].textContent = "Nano";
             unit[1].textContent = "Nano";
             conversion.textContent = "1 raw = 0.000000000000000000000000000001 Nano"
@@ -150,7 +148,7 @@
         function update() {
             pop_data++;
             if (sessionStorage.getItem("unit_nano") == "t")
-                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toFixed(30, 3);
+                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toDecimalPlaces(30, 3);
             else
                 perperson.textContent = numberWithCommas(supply_data.dividedToIntegerBy(pop_data));
             perpersonusd.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).times(price_data).toDecimalPlaces(4);
@@ -210,7 +208,7 @@
 
         function toggleConvert() {
             if (sessionStorage.getItem("unit_nano") == "f") {
-                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toFixed(30, 3);
+                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toDecimalPlaces(30, 3);
                 unit[0].textContent = "Nano";
                 unit[1].textContent = "Nano";
                 conversion.textContent = "1 raw = 0.000000000000000000000000000001 Nano"
