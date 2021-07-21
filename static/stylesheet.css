@@ -11,6 +11,7 @@ body {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -42,7 +43,7 @@ strong {
 }
 
 div.send-nano {
-    position: absolute;
+    position: fixed;
     padding: 2%;
     top: 0%;
     left: 0%;
@@ -50,7 +51,7 @@ div.send-nano {
 }
 
 div.convert-to {
-    position: absolute;
+    position: fixed;
     padding: 2%;
     top: 0%;
     right: 0%;
@@ -58,7 +59,7 @@ div.convert-to {
 }
 
 div.what-is-nano {
-    position: absolute;
+    position: fixed;
     padding-left: 2%;
     padding-bottom: 3%;
     bottom: 0%;
@@ -66,8 +67,8 @@ div.what-is-nano {
     z-index: 9999;
 }
 
-div.about {
-    position: absolute;
+div.about-button {
+    position: fixed;
     padding-right: 2%;
     padding-bottom: 3%;
     bottom: 0%;
@@ -168,6 +169,29 @@ div.price {
     transform: translate(-85%, -80%);
 }
 
+div.about {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    width: 50%;
+    padding: 10px;
+    top: 0%;
+    left: 50%;
+    -ms-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+	background-color: #0c0c0c;
+}
+
+div.home-button {
+    position: fixed;
+    padding: 2%;
+    top: 0%;
+    left: 0%;
+    z-index: 9999;
+}
+
 #donate-overlay {
 	position: fixed;
 	background: url("overlay.png");
@@ -190,7 +214,7 @@ div.price {
 	margin: auto;
 	width: fit-content;
 	height: fit-content;
-	background-color: #23272A;
+	background-color: #0c0c0c;
     border-radius: 15px;
 }
 
@@ -210,4 +234,8 @@ button {
 
 button:hover {
     color: white;
+}
+
+a {
+    color: #4a90e2;
 }
