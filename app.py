@@ -1,13 +1,12 @@
 from flask import Flask, render_template
 import requests
 
-from decimal import Decimal, Inexact, getcontext
+from decimal import Decimal, getcontext
 import re
 import threading
 import time
 
 getcontext().prec = 39
-getcontext().traps[Inexact] = 1
 
 DATA = {}
 
@@ -77,7 +76,7 @@ def index():
     return render_template(
         "index.html",
         perperson=f"{DATA['perperson']:,}",
-        perpersonusd=str(round(Decimal(DATA['perpersonusd']), 4).normalize()),
+        perpersonusd=round(Decimal(DATA['perpersonusd']), 4).normalize(),
         population=f"{DATA['population']:,}",
         supply=f"{DATA['supply_nano']:,}",
         price=f"{round(Decimal(DATA['price']), 2):,.2f}",
