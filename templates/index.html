@@ -1,0 +1,249 @@
+<!--https://www.sitepoint.com/a-basic-html5-template/-->
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <script type="text/javascript" src={{ url_for("static", filename="decimal.js") }}></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>How much raw is there per person on Earth? | RawPerPerson.com</title>
+    <meta name="description" content="How much Nano per person in the world">
+    <meta name="author" content="NinjaSnail1080">
+
+    <meta property="og:title" content="How much Nano is there per person on Earth?">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.rawperperson.com/">
+    <meta property="og:description" content="How much Nano is there per person on Earth?">
+    <meta property="og:image" content={{ url_for("static", filename="image.png") }}>
+
+    <link rel="icon" type="image/png" href={{ url_for("static", filename="icon.png") }}>
+    <link rel="apple-touch-icon" href={{ url_for("static", filename="icon.png") }}>
+
+    <link rel="stylesheet" href={{ url_for("static", filename="index.css") }}>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+</head>
+
+<body>
+    <div class="send-nano">
+        <button class="send-nano" onclick="toggleDonateScreen()"><b>Send me Nano!</b></button>
+    </div>
+
+    <div class="convert-to">
+        <button class="convert-to" onclick="toggleConvert()"><b><span id="convert-to-unit">Convert to Nano</span></b></button>
+    </div>
+
+    <div class="what-is-nano">
+        <form action="https://nano.community/introduction/basics"><button type="submit" class="what-is-nano"><b>What is Nano?</b></button></form>
+    </div>
+
+    <div class="about">
+       <form action={{ url_for("about") }}><button type="submit" class="about"><b>About</b></button></form>
+    </div>
+
+    <div class="conversion">
+        <h4 class="animate__animated animate__flipInX"><span id="conversion">1 Nano = 1,000,000,000,000,000,000,000,000,000,000 raw</span></h4>
+    </div>
+
+    <div class="title">
+        <h2>How much <span class="unit"><b>raw</b></span> is there per person on Earth?</h2>
+    </div>
+
+    <div class="perperson">
+        <h1 class="animate__animated animate__zoomIn"><span id="perperson">{{ perperson }}</span></h1>
+    </div>
+
+    <div class="unit-per-person">
+        <h3 class="animate__animated animate__fadeInUp"><span class="unit">raw</span> per person</h3>
+    </div>
+
+    <div class="equivalent-to">
+        <h5>Currently equivalent to <span id="equivalent-amount">US$<span id="perpersonusd">{{ perpersonusd }}</span></span></h5>
+    </div>
+
+    <div class="population">
+        <p><strong>World Population</strong></p>
+        <p><span id="population">{{ population }}</span></p>
+    </div>
+
+    <div class="supply">
+        <p><strong>Available Nano Supply</strong></p>
+        <p><span id="supply-approx">≈</span><span id="supply">{{ supply }}</span><span id="supply-unit"> Nano</span></p>
+        <button class="supply" onclick="toggleSupplyUnit()"><span id="supply-toggle-text">Show exact supply</span></button>
+    </div>
+
+    <div class="price">
+        <p><strong>Nano Price</strong></p>
+        <p><span id="price-text">US$<span id="price">{{ price }}</span></span></p>
+    </div>
+
+    <div id="donate-overlay" onclick="toggleDonateScreen()" style="visibility: hidden">
+        <div id="donate-popup" onclick="event.stopPropagation()">
+            <img id="donate-qr" src={{ url_for("static", filename="qr.png") }}>
+            <p>Scan the QR code or <button onclick="copyAddress()">copy the address</button></p>
+            <form><input type="text" id="donate-address" size="61" value="nano_11qeep4maf1ttuj6f6j8ya81tbp4jr3eokji9a5ca753ay1ewzfwgbgb9xjn" readonly></form>
+        </div>
+    </div>
+
+    <script>
+        try {
+            if (performance.getEntriesByType("navigation")[0].type == "back_forward")
+                location.reload(true);
+        } catch {}
+
+        Decimal.set({ precision: 39, rounding: 4, toExpNeg: -9e15, toExpPos: 9e15 });
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        var perperson = document.getElementById("perperson");
+        var perpersonusd = document.getElementById("perpersonusd");
+        var population = document.getElementById("population");
+        var supply = document.getElementById("supply");
+        var price = document.getElementById("price");
+
+        var donate = document.getElementById("donate-overlay");
+        var donate_address = document.getElementById("donate-address");
+        var supply_unit = document.getElementById("supply-unit");
+        var supply_approx = document.getElementById("supply-approx");
+        var supply_unit_toggle = document.getElementById("supply-toggle-text");
+        var convert_toggle = document.getElementById("convert-to-unit");
+        var conversion = document.getElementById("conversion")
+        var unit = document.getElementsByClassName("unit");
+
+        var price_data = new Decimal("{{ price_data }}");
+        var supply_data = new Decimal("{{ supply_data }}");
+        var pop_data = new Decimal("{{ pop_data }}");
+
+        if (sessionStorage.getItem("supply_nano") == "f") {
+            supply_unit.textContent = " raw";
+            supply_approx.textContent = "";
+            supply.textContent = numberWithCommas(supply_data);
+            supply_unit_toggle.textContent = "Show approx. supply"
+        } else {
+            supply_unit.textContent = " Nano"
+            supply_approx.textContent = "≈";
+            supply.textContent = numberWithCommas(supply_data.dividedBy(10**30).toDecimalPlaces(0));
+            supply_unit_toggle.textContent = "Show exact supply"
+            sessionStorage.setItem("supply_nano", "t"); // If it's null
+        }
+        if (sessionStorage.getItem("unit_nano") == "t") {
+            perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10 ** 30).toFixed(30, 3);
+            unit[0].textContent = "Nano";
+            unit[1].textContent = "Nano";
+            conversion.textContent = "1 raw = 0.000000000000000000000000000001 Nano"
+            convert_toggle.textContent = "Convert to raw";
+        } else {
+            perperson.textContent = numberWithCommas(supply_data.dividedToIntegerBy(pop_data));
+            unit[0].textContent = "raw";
+            unit[1].textContent = "raw";
+            conversion.textContent = "1 Nano = 1,000,000,000,000,000,000,000,000,000,000 raw"
+            convert_toggle.textContent = "Convert to Nano";
+            sessionStorage.setItem("unit_nano", "f"); // If it's null
+        }
+
+        function update() {
+            pop_data++;
+            if (sessionStorage.getItem("unit_nano") == "t")
+                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toFixed(30, 3);
+            else
+                perperson.textContent = numberWithCommas(supply_data.dividedToIntegerBy(pop_data));
+            perpersonusd.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).times(price_data).toDecimalPlaces(4);
+            population.textContent = numberWithCommas(pop_data);
+        }
+
+        var xhr = new XMLHttpRequest();
+        var counter = 0;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var resp = xhr.response;
+
+                price_data = new Decimal(resp["price"]);
+                supply_data = new Decimal(resp["supply"]);
+
+                if (sessionStorage.getItem("supply_nano") == "t")
+                    supply.textContent = numberWithCommas(supply_data.dividedBy(10**30).toDecimalPlaces(0));
+                else
+                    supply.textContent = numberWithCommas(supply_data);
+                price.textContent = price_data.toFixed(2);
+
+                if (counter > 9) {
+                    pop_data = new Decimal(resp["population"]);
+                    counter = 0;
+                }
+                counter++;
+            }
+        }
+
+        var client_update_timer;
+        client_update_timer = setInterval(function() {
+            update();
+        }, parseInt("{{ interval * 1000}}", 10));
+
+        var server_update_timer;
+        server_update_timer = setInterval(function() {
+            xhr.open("GET", "{{ url_for('data') }}", true);
+            xhr.responseType = "json";
+            xhr.send();
+        }, 1000);
+
+        function toggleSupplyUnit() {
+            if (sessionStorage.getItem("supply_nano") == "t") {
+                supply_unit.textContent = " raw";
+                supply_approx.textContent = "";
+                supply.textContent = numberWithCommas(supply_data);
+                supply_unit_toggle.textContent = "Show approx. supply"
+                sessionStorage.setItem("supply_nano", "f")
+            } else {
+                supply_unit.textContent = " Nano"
+                supply_approx.textContent = "≈";
+                supply.textContent = numberWithCommas(supply_data.dividedBy(10**30).toDecimalPlaces(0));
+                supply_unit_toggle.textContent = "Show exact supply"
+                sessionStorage.setItem("supply_nano", "t")
+            }
+        }
+
+        function toggleConvert() {
+            if (sessionStorage.getItem("unit_nano") == "f") {
+                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toFixed(30, 3);
+                unit[0].textContent = "Nano";
+                unit[1].textContent = "Nano";
+                conversion.textContent = "1 raw = 0.000000000000000000000000000001 Nano"
+                convert_toggle.textContent = "Convert to raw";
+                sessionStorage.setItem("unit_nano", "t");
+            } else {
+                perperson.textContent = numberWithCommas(supply_data.dividedToIntegerBy(pop_data));
+                unit[0].textContent = "raw";
+                unit[1].textContent = "raw";
+                conversion.textContent = "1 Nano = 1,000,000,000,000,000,000,000,000,000,000 raw"
+                convert_toggle.textContent = "Convert to Nano";
+                sessionStorage.setItem("unit_nano", "f");
+            }
+        }
+
+        function toggleDonateScreen() {
+            if (donate.style.visibility == "hidden")
+                donate.style.visibility = "visible";
+            else
+                donate.style.visibility = "hidden";
+        }
+
+        function copyAddress() {
+            donate_address.select();
+            donate_address.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            donate_address.classList.add("animate__animated", "animate__flash");
+
+            donate_address.addEventListener("animationend", () => {
+                donate_address.classList.remove("animate__animated", "animate__flash");
+            });
+        }
+    </script>
+</body>
+
+</html>

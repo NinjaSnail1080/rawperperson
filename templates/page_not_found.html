@@ -1,0 +1,49 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Error 404 | This page could not be found</title>
+
+    <link rel="icon" type="image/png" href={{ url_for("static", filename="icon.png") }}>
+    <link rel="apple-touch-icon" href={{ url_for("static", filename="icon.png") }}>
+
+    <style>
+        html {
+            background: url("{{ url_for('static', filename='bg.jpeg') }}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-color: black;
+        }
+
+        body {
+            text-align: center;
+            color: white;
+            font-size: 400%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 95vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+    <h1>404</h1>
+    <h4>This page could not be found</h4>
+    </div>
+</body>
+
+</html>

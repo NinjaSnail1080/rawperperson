@@ -1,0 +1,213 @@
+html {
+    background: url(bg.jpeg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: black;
+}
+
+body {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 400%;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 300%;
+}
+
+h3 {
+    font-size: 200%;
+    color: #CCCCCC;
+}
+
+h4 {
+    font-weight: normal;
+    color: #CCCCCC;
+}
+
+strong {
+    color: #CCCCCC;
+}
+
+.unit {
+    color: #4a90e2;
+    text-shadow: 2px 2px black;
+}
+
+div.send-nano {
+    position: absolute;
+    padding: 2%;
+    top: 0%;
+    left: 0%;
+    z-index: 9999;
+}
+
+div.convert-to {
+    position: absolute;
+    padding: 2%;
+    top: 0%;
+    right: 0%;
+    z-index: 9999;
+}
+
+div.what-is-nano {
+    position: absolute;
+    padding-left: 2%;
+    padding-bottom: 3%;
+    bottom: 0%;
+    left: 0%;
+    z-index: 9999;
+}
+
+div.about {
+    position: absolute;
+    padding-right: 2%;
+    padding-bottom: 3%;
+    bottom: 0%;
+    right: 0%;
+    z-index: 9999;
+}
+
+div.title {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    width: 50%;
+    padding: 10px;
+    top: 10%;
+    left: 50%;
+    -ms-transform: translate(-50%, -10%);
+    transform: translate(-50%, -10%);
+}
+
+div.perperson {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    padding: 10px;
+    top: 40%;
+    left: 50%;
+    -ms-transform: translate(-50%, -40%);
+    transform: translate(-50%, -40%);
+}
+
+div.unit-per-person {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    width: 50%;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+div.equivalent-to {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    width: 50%;
+    padding: 10px;
+    top: 60%;
+    left: 50%;
+    -ms-transform: translate(-50%, -60%);
+    transform: translate(-50%, -60%);
+}
+
+div.population {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    top: 80%;
+    left: 15%;
+    -ms-transform: translate(-15%, -80%);
+    transform: translate(-15%, -80%);
+}
+
+div.supply {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    top: 80%;
+    left: 50%;
+    -ms-transform: translate(-50%, -80%);
+    transform: translate(-50%, -80%);
+    z-index: 999;
+}
+
+div.price {
+    position: absolute;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    top: 80%;
+    left: 85%;
+    -ms-transform: translate(-85%, -80%);
+    transform: translate(-85%, -80%);
+}
+
+#donate-overlay {
+	position: fixed;
+	background: url("overlay.png");
+	background-repeat: repeat;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99999;
+}
+
+#donate-popup {
+	position: absolute;
+    display: inline-block;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+    padding: 20px;
+	margin: auto;
+	width: fit-content;
+	height: fit-content;
+	background-color: #23272A;
+    border-radius: 15px;
+}
+
+#donate-qr {
+    border-radius: 15px;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #4a90e2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover {
+    color: white;
+}
