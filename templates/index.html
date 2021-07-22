@@ -106,6 +106,7 @@
         var price = document.getElementById("price");
 
         var donate = document.getElementById("donate-overlay");
+        var donate_popup = document.getElementById("donate-popup");
         var donate_address = document.getElementById("donate-address");
         var supply_unit = document.getElementById("supply-unit");
         var supply_approx = document.getElementById("supply-approx");
@@ -224,11 +225,26 @@
             }
         }
 
+        var showing_donate_screen = false;
         function toggleDonateScreen() {
             if (donate.style.visibility == "hidden")
+            {
+                showing_donate_screen = true;
                 donate.style.visibility = "visible";
-            else
-                donate.style.visibility = "hidden";
+                donate_popup.classList.add("animate__animated", "animate__fadeInDownBig", "animate__faster");
+            } else {
+                showing_donate_screen = false;
+                donate_popup.classList.add("animate__animated", "animate__fadeOutUpBig", "animate__faster");
+            }
+
+            donate_popup.addEventListener("animationend", () => {
+                if (showing_donate_screen)
+                    donate_popup.classList.remove("animate__animated", "animate__fadeInDownBig", "animate__faster");
+                else {
+                    donate_popup.classList.remove("animate__animated", "animate__fadeOutUpBig", "animate__faster");
+                    donate.style.visibility = "hidden";
+                }
+            });
         }
 
         function copyAddress() {
