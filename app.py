@@ -89,7 +89,10 @@ def index():
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template(
+        "about.html",
+        supply=f"{DATA['supply_nano']:,}"
+    )
 
 
 @app.route("/data")
