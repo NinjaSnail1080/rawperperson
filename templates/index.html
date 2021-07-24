@@ -21,13 +21,14 @@
     <link rel="icon" type="image/png" href={{ url_for("static", filename="icon.png") }}>
     <link rel="apple-touch-icon" href={{ url_for("static", filename="icon.png") }}>
 
-    <link rel="stylesheet" href={{ url_for("static", filename="stylesheet.css") }}>
+    <link rel="stylesheet" media="screen and (min-width: 601px)" href={{ url_for("static", filename="stylesheet.css") }}>
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href={{ url_for("static", filename="mobile_stylesheet.css") }}>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 </head>
 
 <body>
-  <main>
+    <main>
     <div class="send-nano corners">
         <button class="send-nano" onclick="toggleDonateScreen()"><b>Send me Nano!</b></button>
     </div>
@@ -64,31 +65,30 @@
         <h5>Currently equivalent to <span id="equivalent-amount">US$<span id="perpersonusd">{{ perpersonusd }}</span></span></h5>
     </div>
     </main>
+
     <div>
-    <div class="bottom">
-        <div class="population boxes">
-            <p><strong>World Population</strong></p>
-            <span id="population">{{ population }}</span>
-        </div>
+        <div class="bottom">
+            <div class="population boxes">
+                <p><strong>World Population</strong></p>
+                <p><span id="population">{{ population }}</span></p>
+            </div>
 
-        <div class="supply boxes">
-            <p><strong>Available Nano Supply</strong></p>
-            <span id="supply-approx">≈</span>
-        <span id="supply">{{ supply }}</span><span id="supply-unit"> Nano</span>
-        <div>
-            <button class="supply supBox" onclick="toggleSupplyUnit()">
-            <span id="supply-toggle-text">Show exact supply</span></button></div>
-        </div>
+            <div class="supply boxes">
+                <p><strong>Available Nano Supply</strong></p>
+                <p><span id="supply-approx">≈</span><span id="supply">{{ supply }}</span><span id="supply-unit"> Nano</span></p>
+                <div>
+                    <button class="supply supBox" onclick="toggleSupplyUnit()">
+                    <span id="supply-toggle-text">Show exact supply</span></button>
+                </div>
+            </div>
 
-        <div class="price boxes">
-            <p><strong>Nano Price</strong></p>
-            <span id="price-text">US$<span id="price">{{ price }}</span></span>
+            <div class="price boxes">
+                <p><strong>Nano Price</strong></p>
+                <p><span id="price-text">US$<span id="price">{{ price }}</span></span></p>
+            </div>
         </div>
-
     </div>
-    <br>
-    <p></p>
-    </div>
+
     <div id="donate-overlay" onclick="toggleDonateScreen()" style="visibility: hidden">
         <div id="donate-popup" onclick="event.stopPropagation()">
             <img id="donate-qr" src={{ url_for("static", filename="qr.png") }}>
@@ -156,16 +156,6 @@
             sessionStorage.setItem("unit_nano", "f"); // If it's null
         }
 
-        function update() {
-            pop_data++;
-            if (sessionStorage.getItem("unit_nano") == "t")
-                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toDecimalPlaces(30, 3);
-            else
-                perperson.textContent = numberWithCommas(supply_data.dividedToIntegerBy(pop_data));
-            perpersonusd.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).times(price_data).toDecimalPlaces(4);
-            population.textContent = numberWithCommas(pop_data);
-        }
-
         var xhr = new XMLHttpRequest();
         var counter = 0;
         xhr.onreadystatechange = function() {
@@ -191,7 +181,13 @@
 
         var client_update_timer;
         client_update_timer = setInterval(function() {
-            update();
+            pop_data++;
+            if (sessionStorage.getItem("unit_nano") == "t")
+                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10 ** 30).toDecimalPlaces(30, 3);
+            else
+                perperson.textContent = numberWithCommas(supply_data.dividedToIntegerBy(pop_data));
+            perpersonusd.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10 ** 30).times(price_data).toFixed(4);
+            population.textContent = numberWithCommas(pop_data);
         }, parseInt("{{ interval * 1000}}", 10));
 
         var server_update_timer;
