@@ -6,7 +6,7 @@
 
 This website was inspired by Miguel Medeiros's [satoshisperperson.com](https://satoshisperperson.com/). I decided to make a site like his but for the Nano cryptocurrency.
 
-Currently, the site looks terrible on mobile devices. I'm new to CSS, and I couldn't figure out how to fix it. If anyone who knows CSS would like to help, I'd be forever grateful.
+Special thanks to [u/rootdevukr](https://www.reddit.com/user/rootdevukr) for helping with the CSS on mobile.
 
 The backend uses Flask and runs on Gunicorn. This site also uses [animate.css](https://animate.style/) and the [decimal.js-light](https://github.com/MikeMcl/decimal.js-light/) library.
 
