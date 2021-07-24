@@ -19,7 +19,8 @@
     <link rel="icon" type="image/png" href={{ url_for("static", filename="icon.png") }}>
     <link rel="apple-touch-icon" href={{ url_for("static", filename="icon.png") }}>
 
-    <link rel="stylesheet" href={{ url_for("static", filename="stylesheet.css") }}>
+    <link rel="stylesheet" media="screen and (min-width: 601px)" href={{ url_for("static", filename="stylesheet.css") }}>
+    <link rel="stylesheet" media="screen and (max-width: 600px)" href={{ url_for("static", filename="mobile_stylesheet.css") }}>
 
 </head>
 
@@ -47,8 +48,8 @@
         <p>The live population counter is based on <a href="https://www.theworldcounts.com/challenges/planet-earth/state-of-the-planet/world-population-clock-live/story">this website</a>.
         Of course, it only shows a very rough estimate based on data from the U.N. and other international organizations. It's impossible to know what Earth's actual population is at any given time.</p>
         <p>If you want to view the code for this site, <a href="https://github.com/NinjaSnail1080/rawperperson">here it is on Github</a>.
-        Currently, this website looks absolutely terrible on mobile or if you resize the screen. So if anyone who's way better than me
-        at CSS would like to fix it, please be my guest. This is the first website I've ever made, so of course it's pretty janky.</p>
+        This is the first website I've ever made, so some things are a little bit janky. Special thanks to <a href="https://www.reddit.com/user/rootdevukr">u/rootdevukr</a>
+        for helping with the CSS on mobile.</p>
         <p>JSON data from the backend server is accessed via <a href={{ url_for("data") }}>this API endpoint</a>.</p>
         <p>The background image and the photo for the Nano icon above come from <a href="https://earthobservatory.nasa.gov/images/90008/night-light-maps-open-up-new-applications">NASA's Black Marble images</a>
         of Earth's city lights at night.</p>
