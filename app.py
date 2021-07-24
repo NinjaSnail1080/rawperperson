@@ -76,7 +76,7 @@ def index():
     return render_template(
         "index.html",
         perperson=f"{DATA['perperson']:,}",
-        perpersonusd=round(Decimal(DATA['perpersonusd']), 4).normalize(),
+        perpersonusd=Decimal(DATA['perpersonusd']).quantize(Decimal("0.0001")),
         population=f"{DATA['population']:,}",
         supply=f"{DATA['supply_nano']:,}",
         price=f"{round(Decimal(DATA['price']), 2):,.2f}",
