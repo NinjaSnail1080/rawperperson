@@ -183,10 +183,10 @@
         client_update_timer = setInterval(function() {
             pop_data++;
             if (sessionStorage.getItem("unit_nano") == "t")
-                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10 ** 30).toDecimalPlaces(30, 3);
+                perperson.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).toDecimalPlaces(30, 3);
             else
                 perperson.textContent = numberWithCommas(supply_data.dividedToIntegerBy(pop_data));
-            perpersonusd.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10 ** 30).times(price_data).toFixed(4);
+            perpersonusd.textContent = supply_data.dividedToIntegerBy(pop_data).dividedBy(10**30).times(price_data).toFixed(4);
             population.textContent = numberWithCommas(pop_data);
         }, parseInt("{{ interval * 1000}}", 10));
 
