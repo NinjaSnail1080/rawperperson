@@ -1,12 +1,13 @@
 from flask import Flask, render_template
 import requests
 
-from decimal import Decimal, getcontext
+from decimal import Decimal, getcontext, ROUND_HALF_UP
 import re
 import threading
 import time
 
 getcontext().prec = 39
+getcontext().rounding = ROUND_HALF_UP
 
 DATA = {}
 
@@ -18,9 +19,9 @@ def update_population():
         r = requests.get("https://www.theworldcounts.com/embed/challenges/8")
         pop_regex = re.compile(r"number_interval\([0-9.]*, [0-9.]*")
         pop_data = pop_regex.findall(r.text)[0].split(", ")
-        DATA["population"] = round(float(pop_data[0][16:]))
+        DATA["population"] = int(Decimal(pop_data[0][16:]).quantize(Decimal("1.")))
         DATA["perperson"] = int(DATA["supply"]) // DATA["population"]
-        DATA["perpersonusd"] = str(Decimal(int(DATA["supply"]) // DATA["population"]) / Decimal(10**30) * Decimal(DATA["price"]))
+        DATA["perpersonusd"] = str(Decimal(DATA["perperson"]) / Decimal(10**30) * Decimal(DATA["price"]))
         DATA["interval"] = 1 / float(pop_data[1])
 
         DATA["last_reset"] = time.time()
@@ -28,7 +29,7 @@ def update_population():
             time.sleep(DATA["interval"])
             DATA["population"] += 1
             DATA["perperson"] = int(DATA["supply"]) // DATA["population"]
-            DATA["perpersonusd"] = str(Decimal(int(DATA["supply"]) // DATA["population"]) / Decimal(10**30) * Decimal(DATA["price"]))
+            DATA["perpersonusd"] = str(Decimal(DATA["perperson"]) / Decimal(10**30) * Decimal(DATA["price"]))
 
 
 def update_supply_and_price():
@@ -48,11 +49,11 @@ def update_supply_and_price():
         try:
             r = requests.post("https://mynano.ninja/api/node", json={"action": "available_supply"})
             DATA["supply"] = r.json()["available"]
-            DATA["supply_nano"] = round(int(DATA['supply']) / 10**30)
+            DATA["supply_nano"] = int((Decimal(DATA['supply']) / Decimal(10**30)).quantize(Decimal("1.")))
         except:
             r = requests.get("https://node.shrynode.me/api?action=available_supply")
             DATA["supply"] = r.json()["available"]
-            DATA["supply_nano"] = round(int(DATA['supply']) / 10**30)
+            DATA["supply_nano"] = int((Decimal(DATA['supply']) / Decimal(10**30)).quantize(Decimal("1.")))
         # Excess redundancy for the win
 
 
@@ -63,7 +64,7 @@ def init():
 
     r = requests.post("https://mynano.ninja/api/node", json={"action": "available_supply"})
     DATA["supply"] = r.json()["available"]
-    DATA["supply_nano"] = round(int(DATA['supply']) / 10**30)
+    DATA["supply_nano"] = int((Decimal(DATA['supply']) / Decimal(10**30)).quantize(Decimal("1.")))
 
     threading.Thread(target=update_population).start()
     threading.Thread(target=update_supply_and_price).start()
@@ -79,7 +80,7 @@ def index():
         perpersonusd=Decimal(DATA['perpersonusd']).quantize(Decimal("0.0001")),
         population=f"{DATA['population']:,}",
         supply=f"{DATA['supply_nano']:,}",
-        price=f"{round(Decimal(DATA['price']), 2):,.2f}",
+        price=Decimal(DATA['price']).quantize(Decimal("0.01")),
         price_data=DATA["price"],
         supply_data=DATA["supply"],
         pop_data=DATA["population"],
