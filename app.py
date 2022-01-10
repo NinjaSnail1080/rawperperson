@@ -43,17 +43,23 @@ def update_supply_and_price():
                 r = requests.post("https://proxy.powernode.cc/proxy", json={"action": "price"})
                 DATA["price"] = str(r.json()["quotes"]["USD"]["price"])
             except:
-                r = requests.post("https://rainstorm.city/api", json={"action": "price"})
-                DATA["price"] = str(r.json()["quotes"]["USD"]["price"])
+                try:
+                    r = requests.post("https://rainstorm.city/api", json={"action": "price"})
+                    DATA["price"] = str(r.json()["quotes"]["USD"]["price"])
+                except:
+                    app.logger.error(f"Failed to get price\nJSON data: {r.json()}")
 
         try:
             r = requests.post("https://mynano.ninja/api/node", json={"action": "available_supply"})
             DATA["supply"] = r.json()["available"]
             DATA["supply_nano"] = int((Decimal(DATA['supply']) / Decimal(10**30)).quantize(Decimal("1.")))
         except:
-            r = requests.get("https://node.shrynode.me/api?action=available_supply")
-            DATA["supply"] = r.json()["available"]
-            DATA["supply_nano"] = int((Decimal(DATA['supply']) / Decimal(10**30)).quantize(Decimal("1.")))
+            try:
+                r = requests.get("https://node.shrynode.me/api?action=available_supply")
+                DATA["supply"] = r.json()["available"]
+                DATA["supply_nano"] = int((Decimal(DATA['supply']) / Decimal(10**30)).quantize(Decimal("1.")))
+            except:
+                app.logger.error(f"Failed to get supply\nJSON data: {r.json()}")
         # Excess redundancy for the win
 
 
